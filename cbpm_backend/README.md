@@ -19,7 +19,7 @@ fakes -> Data Gathering:
 conda create -n cbpm python=3.7
 conda activate cbpm
 python -m pip install fastapi uvicorn pytest starlette==0.12.9
-python -m pip install -U fastapi black
+python -m pip install -U fastapi black gmplot
 ```
 
 ## execution
