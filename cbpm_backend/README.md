@@ -2,7 +2,7 @@
 
 This little fastapi server mocks our "proxy"-service-server.
 
-fakes -> Data Gathering:
+obtains information for Data Gathering:
 
 - weather data
   - incident location (Bodensee, Nordsee, Ostsee, See, Fluss)
