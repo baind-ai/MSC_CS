@@ -2,10 +2,12 @@ from fastapi import FastAPI
 import uvicorn
 from datetime import datetime
 
-from cbpmtypes import IncidentLocation
+from cbpmtypes import IncidentLocation, Country
 from apiconnector import (
     get_absolutely_not_faked_weather_data,
     get_totally_real_gps_route,
+    fetch_available_investigators,
+    get_applicable_laws
 )
 
 
@@ -38,6 +40,24 @@ def read_weather(
 @app.get("/gps/{vessel_name}")
 def read_gps_coordinates(vessel_name: str, incident_location: IncidentLocation) -> str:
     return get_totally_real_gps_route(vessel_name, incident_location)
+
+
+@app.get("/investigators/all")
+def get_applicable_investigators():
+    return fetch_available_investigators()
+
+
+@app.get("/investigators/check/{investigator_name}")
+def check_proposed_investigator(investigator_name: str):
+    if investigator_name in [inv.name for inv in fetch_available_investigators()]:
+        return True
+    else:
+        return False
+
+
+@app.get("/jurisdiction/{country}")
+def get_jurisdication_data(country: Country):
+    return get_applicable_laws(country)
 
 
 if __name__ == "__main__":

@@ -7,11 +7,9 @@ obtains information for Data Gathering:
 - weather data
   - incident location (Bodensee, Nordsee, Ostsee, See, Fluss)
 - route gps data
-  - 
-- specific wessel data
-  - define 3 models
-- jurisdication data
-  - 
+- get investigators
+- check proposed investagor
+- get applicable jurisdiction data by country
 
 ## setup
 

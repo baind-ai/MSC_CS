@@ -1,4 +1,5 @@
 from enum import Enum
+from pydantic import BaseModel
 
 
 class IncidentLocation(str, Enum):
@@ -8,3 +9,16 @@ class IncidentLocation(str, Enum):
     ostsee = "ostsee"
     see = "see"
     fluss = "fluss"
+
+
+class Country(str, Enum):
+    germany = "deutschland"
+    austria = "oesterreich"
+    swiss = "schweiz"
+
+
+class Investigator(BaseModel):
+    name: str
+    vname: str
+    berufserfahrung: int
+    priority: int

@@ -3,7 +3,7 @@ import gmplot
 from pathlib import Path
 from typing import List
 
-from cbpmtypes import IncidentLocation
+from cbpmtypes import IncidentLocation, Investigator, Country
 
 
 def rand(mult: float = 1.0):
@@ -143,3 +143,33 @@ def get_totally_real_gps_route(vessel_name: str, incident_location: str) -> str:
     __draw_gmap(plot_region, latitude_list, longitude_list, html_link)
 
     return html_link
+
+
+def fetch_available_investigators():
+    investigators = [
+        Investigator(**{
+            "name": "Müller", "vname": "Max", "berufserfahrung": "12",
+            "priority": "1"}),
+        Investigator(**{
+            "name": "Maier", "vname": "Mensch", "berufserfahrung": "10",
+            "priority": "2"}),
+        Investigator(**{
+            "name": "Investigator", "vname": "Famous", "berufserfahrung": "8",
+            "priority": "3"}),
+        Investigator(**{
+            "name": "Investigator", "vname": "Stupid", "berufserfahrung": "6",
+            "priority": "4"}),
+        Investigator(**{
+            "name": "Randomdude", "vname": "Totally", "berufserfahrung": "0",
+            "priority": "5"})
+    ]
+    return investigators
+
+
+def get_applicable_laws(country: Country):
+    if country == Country.germany:
+        return "Deutsches Recht"
+    elif country == Country.austria:
+        return "Oesterreichisches Recht"
+    elif country == Country.swiss:
+        return "Schweizer Wurstsalat"
