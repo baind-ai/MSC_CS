@@ -10,6 +10,7 @@ obtains information for Data Gathering:
 - get investigators
 - check proposed investagor
 - get applicable jurisdiction data by country
+  - country (deutschland, oesterreich, schweiz)
 
 ## setup
 
