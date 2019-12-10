@@ -145,7 +145,7 @@ def get_totally_real_gps_route(vessel_name: str, incident_location: str) -> str:
     return html_link
 
 
-def fetch_available_investigators():
+def fetch_available_investigators() -> List[Investigator]:
     investigators = [
         Investigator(**{
             "name": "Müller", "vname": "Max", "berufserfahrung": "12",
@@ -166,7 +166,7 @@ def fetch_available_investigators():
     return investigators
 
 
-def get_applicable_laws(country: Country):
+def get_applicable_laws(country: Country) -> str:
     if country == Country.germany:
         return "Deutsches Recht"
     elif country == Country.austria:
