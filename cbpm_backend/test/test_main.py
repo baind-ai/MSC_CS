@@ -4,6 +4,7 @@ from pathlib import Path
 import datetime
 import random
 import string
+import os
 
 sys.path.append("./app/")
 from main import app  # noqa: E402
@@ -30,6 +31,14 @@ def random_string(stringLength=7):
     return "".join(random.choice(letters) for i in range(stringLength))
 
 
+def remove_file(path):
+    try:
+        if Path(path).is_file():
+            os.remove(path)
+    except Exception:
+        pass
+
+
 def test_read_gps_coordinates():
     # test - with incident location
     vessel_name = random_string()
@@ -39,6 +48,7 @@ def test_read_gps_coordinates():
     path = "{}\\{}.html".format(str(Path.home()), vessel_name)
     assert response.json() == path
     assert Path(path).is_file() is True
+    remove_file(path)
 
 
 def test_read_gps_coordinates_wo_location():
@@ -46,9 +56,10 @@ def test_read_gps_coordinates_wo_location():
     vessel_name2 = random_string()
     response = client.get("/gps/{}".format(vessel_name2))
     assert response.status_code == 200
-    path2 = "{}\\{}.html".format(str(Path.home()), vessel_name2)
-    assert response.json() == path2
-    assert Path(path2).is_file() is True
+    path = "{}\\{}.html".format(str(Path.home()), vessel_name2)
+    assert response.json() == path
+    assert Path(path).is_file() is True
+    remove_file(path)
 
 
 def test_get_applicable_investigators():
