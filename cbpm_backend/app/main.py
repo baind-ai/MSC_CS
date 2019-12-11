@@ -2,7 +2,6 @@ from fastapi import FastAPI
 import uvicorn
 from datetime import datetime
 from typing import List
-import logging
 
 from cbpmtypes import IncidentLocation, Country, Investigator
 from apiconnector import (
@@ -10,6 +9,7 @@ from apiconnector import (
     get_totally_real_gps_route,
     fetch_available_investigators,
     get_applicable_laws,
+    get_current_exchangerate_pound_euro,
 )
 
 
@@ -62,6 +62,11 @@ def check_proposed_investigator(investigator_name: str) -> bool:
 @app.get("/jurisdiction/{country}")
 def get_jurisdication_data(country: Country) -> str:
     return get_applicable_laws(country)
+
+
+@app.get("/exchangerate/")
+def get_exchangerate_pound_eur() -> float:
+    return get_current_exchangerate_pound_euro()
 
 
 if __name__ == "__main__":

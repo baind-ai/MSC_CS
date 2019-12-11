@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List
 import logging
 from cbpmtypes import IncidentLocation, Investigator, Country
+import requests
 
 
 def rand(mult: float = 1.0):
@@ -217,3 +218,15 @@ def get_applicable_laws(country: Country) -> str:
         return "Oesterreichisches Recht"
     elif country == Country.swiss:
         return "Schweizer Wurstsalat"
+
+
+def get_current_exchangerate_pound_euro():
+    # https://exchangeratesapi.io/
+    request_url = "https://api.exchangeratesapi.io/latest?base=EUR&symbols=GBP"
+
+    response = requests.get(request_url)
+    exchange_rate = None
+    if response.status_code == 200:
+        data = response.json()
+        exchange_rate = data["rates"]["GBP"]
+    return exchange_rate

@@ -76,3 +76,10 @@ def test_check_proposed_investigator():
 def test_get_jurisdication_data():
     response = client.get("/jurisdiction/schweiz")
     assert response.json() == "Schweizer Wurstsalat"
+
+
+def test_get_current_exchangerate_pound_euro():
+    response = client.get("/exchangerate")
+    exch_rate = float(response.json())
+    assert response.status_code == 200
+    assert type(exch_rate) is float
