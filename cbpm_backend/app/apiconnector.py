@@ -2,7 +2,7 @@ import random
 import gmplot
 from pathlib import Path
 from typing import List
-
+import logging
 from cbpmtypes import IncidentLocation, Investigator, Country
 
 
@@ -136,32 +136,76 @@ def __obtain_gps_routes(incident_location: str) -> (tuple, List[float], List[flo
     return plot_region, latitude_list, longitude_list
 
 
+def get_vessel_incident_location(vessel_name: str) -> IncidentLocation:
+    incident_location = None
+    while incident_location is None:
+        try:
+            idx = int(random.random() * 10)
+            locations = list(map(str, IncidentLocation))
+            incident_location = locations[idx]
+            incident_location = incident_location.split(".")[1]
+
+        except Exception:
+            pass
+    return incident_location
+
+
 def get_totally_real_gps_route(vessel_name: str, incident_location: str) -> str:
     html_link = "{}\\{}.html".format(str(Path.home()), vessel_name)
-
+    if incident_location is None:
+        incident_location = get_vessel_incident_location(vessel_name)
     plot_region, latitude_list, longitude_list = __obtain_gps_routes(incident_location)
     __draw_gmap(plot_region, latitude_list, longitude_list, html_link)
-
-    return html_link
+    logging.info("built file: {}".format(html_link))
+    # if error occured - do not return file-link
+    if Path(html_link).is_file():
+        return html_link
+    else:
+        return None
 
 
 def fetch_available_investigators() -> List[Investigator]:
     investigators = [
-        Investigator(**{
-            "name": "Müller", "vname": "Max", "berufserfahrung": "12",
-            "priority": "1"}),
-        Investigator(**{
-            "name": "Maier", "vname": "Mensch", "berufserfahrung": "10",
-            "priority": "2"}),
-        Investigator(**{
-            "name": "Investigator", "vname": "Famous", "berufserfahrung": "8",
-            "priority": "3"}),
-        Investigator(**{
-            "name": "Investigator", "vname": "Stupid", "berufserfahrung": "6",
-            "priority": "4"}),
-        Investigator(**{
-            "name": "Randomdude", "vname": "Totally", "berufserfahrung": "0",
-            "priority": "5"})
+        Investigator(
+            **{
+                "name": "Müller",
+                "vname": "Max",
+                "berufserfahrung": "12",
+                "priority": "1",
+            }
+        ),
+        Investigator(
+            **{
+                "name": "Maier",
+                "vname": "Mensch",
+                "berufserfahrung": "10",
+                "priority": "2",
+            }
+        ),
+        Investigator(
+            **{
+                "name": "Investigator",
+                "vname": "Famous",
+                "berufserfahrung": "8",
+                "priority": "3",
+            }
+        ),
+        Investigator(
+            **{
+                "name": "Investigator",
+                "vname": "Stupid",
+                "berufserfahrung": "6",
+                "priority": "4",
+            }
+        ),
+        Investigator(
+            **{
+                "name": "Randomdude",
+                "vname": "Totally",
+                "berufserfahrung": "0",
+                "priority": "5",
+            }
+        ),
     ]
     return investigators
 

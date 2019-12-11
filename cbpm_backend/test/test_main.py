@@ -2,6 +2,8 @@ from starlette.testclient import TestClient
 import sys
 from pathlib import Path
 import datetime
+import random
+import string
 
 sys.path.append("./app/")
 from main import app  # noqa: E402
@@ -23,12 +25,30 @@ def test_read_weather():
     assert type(float(data["wellenhoehe"])) is float
 
 
+def random_string(stringLength=7):
+    letters = string.ascii_lowercase
+    return "".join(random.choice(letters) for i in range(stringLength))
+
+
 def test_read_gps_coordinates():
-    vessel_name = "vessel123"
+    # test - with incident location
+    vessel_name = random_string()
     location = "nordsee"
     response = client.get("/gps/{}?incident_location={}".format(vessel_name, location))
     assert response.status_code == 200
-    assert response.json() == "{}\\{}.html".format(str(Path.home()), vessel_name)
+    path = "{}\\{}.html".format(str(Path.home()), vessel_name)
+    assert response.json() == path
+    assert Path(path).is_file() is True
+
+
+def test_read_gps_coordinates_wo_location():
+    # test - without incident location
+    vessel_name2 = random_string()
+    response = client.get("/gps/{}".format(vessel_name2))
+    assert response.status_code == 200
+    path2 = "{}\\{}.html".format(str(Path.home()), vessel_name2)
+    assert response.json() == path2
+    assert Path(path2).is_file() is True
 
 
 def test_get_applicable_investigators():

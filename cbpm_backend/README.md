@@ -11,6 +11,8 @@ obtains information for Data Gathering:
 - check proposed investagor
 - get applicable jurisdiction data by country
   - country (deutschland, oesterreich, schweiz)
+- exchange rate
+  - from ezb
 
 ## setup
 
